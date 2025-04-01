@@ -2,14 +2,22 @@
 import Layout from './Layout.astro';
 
 interface Props {
-  title: string;
-  publishDate: string;
-  image: string;
-  description: string;
-  tags: string[];
+  frontmatter?: {
+    title: string;
+    publishDate: string;
+    image: string;
+    description: string;
+    tags: string[];
+  };
+  title?: string;
+  publishDate?: string;
+  image?: string;
+  description?: string;
+  tags?: string[];
 }
 
-const { title, publishDate, image, description, tags } = Astro.props.frontmatter || Astro.props;
+const props = Astro.props;
+const { title, publishDate, image, description, tags } = props.frontmatter || props;
 ---
 
 <Layout title={`${title} | Blog SpaceX Launches`}>
@@ -33,7 +41,7 @@ const { title, publishDate, image, description, tags } = Astro.props.frontmatter
           <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
         </svg>
         <time datetime={publishDate}>
-          {new Date(publishDate).toLocaleDateString('es-ES', {
+          {new Date(publishDate || '').toLocaleDateString('es-ES', {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
@@ -44,7 +52,7 @@ const { title, publishDate, image, description, tags } = Astro.props.frontmatter
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
-          {Math.ceil(description.length / 5)} min de lectura
+          {Math.ceil((description || '').length / 5)} min de lectura
         </span>
       </div>
       
@@ -219,7 +227,6 @@ const { title, publishDate, image, description, tags } = Astro.props.frontmatter
     line-height: 1.7;
   }
   
-  /* Añadir un poco de estilo a las tablas */
   .prose table {
     width: 100%;
     border-collapse: collapse;
@@ -243,13 +250,11 @@ const { title, publishDate, image, description, tags } = Astro.props.frontmatter
     background-color: rgba(30, 41, 59, 0.3);
   }
   
-  /* Asegurar que imágenes y contenido multimedia se ajusten */
   .prose img, .prose video, .prose iframe {
     max-width: 100%;
     height: auto;
   }
   
-  /* Asegurar que todos los elementos respetan el ancho del contenedor */
   .prose * {
     max-width: 100%;
   }

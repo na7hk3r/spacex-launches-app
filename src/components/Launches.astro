@@ -3,10 +3,9 @@
     import Pagination from '../components/Pagination.astro'
     import { getLatestLaunches } from '../services/spacex'
 
-    // Obtener el parámetro de página de la URL
-    const { page } = Astro.url.searchParams;
-    const currentPage = page ? parseInt(page) : 1;
-    const limit = 16; // Aumentamos el límite a 16 lanzamientos por página
+    const pageParam = Astro.url.searchParams.get('page');
+    const currentPage = pageParam ? parseInt(pageParam) : 1;
+    const limit = 16;
 
     // Usamos orden descendente para mostrar primero los lanzamientos más recientes
     // Y filtramos para mostrar solo los que tienen imagen de parche

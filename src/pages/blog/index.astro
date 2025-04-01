@@ -1,8 +1,17 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import type { Frontmatter, PostsByDate, PostsByTag } from '../../types/blog';
+
+type MarkdownPost = {
+  frontmatter: Frontmatter;
+  url: string;
+  file: string;
+  Content: any;
+  [key: string]: any;
+};
 
 // Obtener todos los posts de blog excluyendo este archivo index.astro
-const allPosts = await Astro.glob('./*.md');
+const allPosts = await Astro.glob<MarkdownPost>('./*.md');
 
 // Ordenar los posts por fecha de publicación (más recientes primero)
 const blogPosts = allPosts.sort((a, b) => {
@@ -11,13 +20,11 @@ const blogPosts = allPosts.sort((a, b) => {
     return dateB.getTime() - dateA.getTime();
 });
 
-// Obtener el post destacado (el más reciente)
 const featuredPost = blogPosts[0];
-// Resto de los posts
 const regularPosts = blogPosts.slice(1);
 
 // Agrupar posts por mes/año para la navegación
-const postsByDate = blogPosts.reduce((acc, post) => {
+const postsByDate: PostsByDate = blogPosts.reduce((acc: PostsByDate, post) => {
     const date = new Date(post.frontmatter.publishDate);
     const yearMonth = `${date.getFullYear()}-${date.getMonth()}`;
     
@@ -28,19 +35,19 @@ const postsByDate = blogPosts.reduce((acc, post) => {
         };
     }
     
-    acc[yearMonth].posts.push(post);
+    acc[yearMonth].posts.push(post as any);
     return acc;
 }, {});
 
 // Agrupar posts por etiquetas para la navegación
-const postsByTag = blogPosts.reduce((acc, post) => {
+const postsByTag: PostsByTag = blogPosts.reduce((acc: PostsByTag, post) => {
     const tags = post.frontmatter.tags || [];
     
-    tags.forEach(tag => {
+    tags.forEach((tag: string) => {
         if (!acc[tag]) {
             acc[tag] = [];
         }
-        acc[tag].push(post);
+        acc[tag].push(post as any);
     });
     
     return acc;
@@ -111,7 +118,7 @@ const popularTags = Object.entries(postsByTag)
                             <!-- Indicadores móviles -->
                             <div class="block md:hidden absolute bottom-0 left-0 right-0 p-8">
                                 <div class="flex flex-wrap gap-2 mb-3">
-                                    {featuredPost.frontmatter.tags && featuredPost.frontmatter.tags.map((tag) => (
+                                    {featuredPost.frontmatter.tags && featuredPost.frontmatter.tags.map((tag: string) => (
                                         <span class="inline-block bg-blue-900/60 backdrop-blur-sm px-3 py-1 text-xs font-medium text-blue-200 rounded-full border border-blue-700/50">
                                             {tag}
                                         </span>
@@ -138,7 +145,7 @@ const popularTags = Object.entries(postsByTag)
                             <!-- Contenido desktop y tablet -->
                             <div class="hidden md:block">
                                 <div class="flex flex-wrap gap-2 mb-3">
-                                    {featuredPost.frontmatter.tags && featuredPost.frontmatter.tags.map((tag) => (
+                                    {featuredPost.frontmatter.tags && featuredPost.frontmatter.tags.map((tag: string) => (
                                         <span class="inline-block bg-blue-900/60 px-3 py-1 text-xs font-medium text-blue-200 rounded-full border border-blue-700/50">
                                             {tag}
                                         </span>
@@ -215,7 +222,7 @@ const popularTags = Object.entries(postsByTag)
                                         
                                         <div class="p-6 flex-grow flex flex-col">
                                             <div class="flex gap-2 flex-wrap mb-2">
-                                                {post.frontmatter.tags && post.frontmatter.tags.slice(0, 2).map((tag) => (
+                                                {post.frontmatter.tags && post.frontmatter.tags.slice(0, 2).map((tag: string) => (
                                                     <span class="inline-block bg-gray-700/50 px-2 py-1 text-xs text-gray-300 rounded">
                                                         {tag}
                                                     </span>
@@ -301,7 +308,7 @@ const popularTags = Object.entries(postsByTag)
                     <div class="bg-gray-800 rounded-xl p-6 border border-gray-700/50">
                         <h3 class="text-lg font-semibold text-white mb-4">Archivo</h3>
                         <div class="space-y-2">
-                            {Object.entries(postsByDate).map(([key, { label, posts }]) => (
+                            {Object.entries(postsByDate).map(([_yearMonth, { label, posts }]) => (
                                 <div>
                                     <p class="text-gray-300 flex justify-between items-center">
                                         <span>{label}</span>
