@@ -21,8 +21,8 @@ const { href, tooltip } = Astro.props;
     </a>
     
     {tooltip && (
-        <div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-max max-w-xs opacity-0 group-hover/tooltip:opacity-100 transition-opacity duration-300 pointer-events-none">
-            <div class="px-3 py-2 text-xs font-medium text-white bg-gray-900 rounded-lg shadow-lg">
+        <div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-max max-w-[180px] sm:max-w-xs opacity-0 group-hover/tooltip:opacity-100 transition-opacity duration-300 pointer-events-none z-50">
+            <div class="px-3 py-2 text-xs font-medium text-white bg-gray-900 rounded-lg shadow-lg line-clamp-2">
                 {tooltip}
                 <div class="absolute left-1/2 -translate-x-1/2 top-full w-2 h-2 rotate-45 bg-gray-900"></div>
             </div>

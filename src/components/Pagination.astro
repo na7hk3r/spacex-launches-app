@@ -15,30 +15,46 @@ const basePath = currentPath === "/" ? "/" : `${currentPath}`;
 const prevPageUrl = hasPrevPage ? `${basePath}?page=${currentPage - 1}` : null;
 const nextPageUrl = hasNextPage ? `${basePath}?page=${currentPage + 1}` : null;
 
-// Mostrar 5 páginas alrededor de la página actual
-const startPage = Math.max(1, currentPage - 2);
-const endPage = Math.min(totalPages, currentPage + 2);
+// Mostrar 5 páginas alrededor de la página actual (o menos en pantallas pequeñas)
+const maxVisiblePages = totalPages > 5 ? 5 : totalPages;
+const halfVisible = Math.floor(maxVisiblePages / 2);
+const startPage = Math.max(1, Math.min(currentPage - halfVisible, totalPages - maxVisiblePages + 1));
+const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 ---
 
-<div class="flex justify-center items-center gap-2 my-8">
+<div class="flex flex-wrap justify-center items-center gap-2 my-8 px-4">
     {hasPrevPage && (
         <a 
             href={prevPageUrl}
-            class="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+            class="flex items-center justify-center px-2 sm:px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
         >
-            <svg width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="mr-1">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                 <path d="M15 6l-6 6l6 6" />
             </svg>
-            Anterior
+            <span class="hidden xs:inline">Anterior</span>
         </a>
     )}
 
-    <div class="flex gap-1">
+    <div class="flex flex-wrap gap-1 justify-center">
+        {startPage > 1 && (
+            <>
+                <a
+                    href={`${basePath}?page=1`}
+                    class="px-3 py-2 rounded-md bg-gray-700 text-gray-200 hover:bg-blue-500 transition-colors"
+                >
+                    1
+                </a>
+                {startPage > 2 && (
+                    <span class="px-2 py-2 text-gray-400">...</span>
+                )}
+            </>
+        )}
+        
         {Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i).map(pageNum => (
             <a
                 href={`${basePath}?page=${pageNum}`}
-                class={`px-4 py-2 rounded-md transition-colors ${
+                class={`px-3 py-2 rounded-md transition-colors ${
                     pageNum === currentPage 
                         ? 'bg-blue-600 text-white font-bold' 
                         : 'bg-gray-700 text-gray-200 hover:bg-blue-500'
@@ -47,18 +63,41 @@ const endPage = Math.min(totalPages, currentPage + 2);
                 {pageNum}
             </a>
         ))}
+        
+        {endPage < totalPages && (
+            <>
+                {endPage < totalPages - 1 && (
+                    <span class="px-2 py-2 text-gray-400">...</span>
+                )}
+                <a
+                    href={`${basePath}?page=${totalPages}`}
+                    class="px-3 py-2 rounded-md bg-gray-700 text-gray-200 hover:bg-blue-500 transition-colors"
+                >
+                    {totalPages}
+                </a>
+            </>
+        )}
     </div>
 
     {hasNextPage && (
         <a 
             href={nextPageUrl}
-            class="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+            class="flex items-center justify-center px-2 sm:px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
         >
-            Siguiente
-            <svg width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <span class="hidden xs:inline">Siguiente</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="ml-1">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                 <path d="M9 6l6 6l-6 6" />
             </svg>
         </a>
     )}
 </div>
+
+<style>
+    /* Clase personalizada para pantallas extra pequeñas */
+    @media (min-width: 480px) {
+        .xs\:inline {
+            display: inline;
+        }
+    }
+</style>
