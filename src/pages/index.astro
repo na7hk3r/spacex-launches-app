@@ -3,6 +3,18 @@ import Launches from '../components/Launches.astro';
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="SpaceX Launches">
-	<Launches />
+<Layout title="SpaceX Launches | Últimos lanzamientos">
+	<div class="mb-10">
+		<h1 class="text-4xl font-bold text-center mb-8 text-white">
+			<span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-cyan-500">
+				Últimos lanzamientos
+			</span>
+		</h1>
+		
+		<p class="text-center text-gray-400 max-w-3xl mx-auto mb-10">
+			Descubre los más recientes lanzamientos de SpaceX, incluyendo información detallada sobre cada misión y su resultado.
+		</p>
+		
+		<Launches />
+	</div>
 </Layout>

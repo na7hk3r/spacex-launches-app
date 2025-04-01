@@ -1,7 +1,31 @@
-<a 
-href="/"
-class="flex-row justify-center text-white cursor-pointer hover:bg-slate-700 focus:ring-4 focus:outline-none focus:ring-[#1da1f2]/50 font-medium rounded-lg px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#1dalf2]/55 mr-2 mb-2 hover:shadow-lg transition-all duration-200 ease-in-out hover:scale-110 scale-90 gap-x-2 opacity-70 hover:opacity-100">
-    <slot name="before" />
-    <slot />
-    <slot name="after" />
-</a>
+---
+interface Props {
+    href: string;
+    tooltip?: string;
+}
+
+const { href, tooltip } = Astro.props;
+---
+
+<div class="group/tooltip relative">
+    <a 
+    href={href}
+    class="flex items-center gap-2 px-5 py-2.5 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:scale-105 group">
+        <span class="text-blue-400 group-hover:text-blue-300 transition-colors">
+            <slot name="before" />
+        </span>
+        <span class="font-medium">
+            <slot />
+        </span>
+        <slot name="after" />
+    </a>
+    
+    {tooltip && (
+        <div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-max max-w-xs opacity-0 group-hover/tooltip:opacity-100 transition-opacity duration-300 pointer-events-none">
+            <div class="px-3 py-2 text-xs font-medium text-white bg-gray-900 rounded-lg shadow-lg">
+                {tooltip}
+                <div class="absolute left-1/2 -translate-x-1/2 top-full w-2 h-2 rotate-45 bg-gray-900"></div>
+            </div>
+        </div>
+    )}
+</div>

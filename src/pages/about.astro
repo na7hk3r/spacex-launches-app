@@ -1,9 +1,80 @@
 ---
-import Layout from "../layouts/Layout.astro"
+import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="About the project">
-<h1>About the project</h1>
-
-<p>The SpaceX launches project is a demo for the Astro course</p>
+<Layout title="SpaceX Launches | Acerca del proyecto">
+    <div class="max-w-4xl mx-auto py-12">
+        <h1 class="text-4xl font-bold text-center mb-8 text-white">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-blue-500">
+                Sobre este proyecto
+            </span>
+        </h1>
+        
+        <div class="space-y-8 text-gray-300">
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-blue-400">¿Qué es SpaceX Launches?</h2>
+                <p class="mb-4">
+                    SpaceX Launches es una aplicación web educativa que muestra información sobre los lanzamientos
+                    espaciales de la compañía SpaceX. La aplicación utiliza la API pública de SpaceX para recopilar 
+                    datos actualizados sobre cada misión, sus resultados y detalles técnicos.
+                </p>
+                <p>
+                    Este proyecto fue desarrollado como un ejemplo práctico para aprender y demostrar habilidades en desarrollo web
+                    moderno, especialmente con tecnologías como Astro, Tailwind CSS y la integración con APIs externas.
+                </p>
+            </div>
+            
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-blue-400">Tecnologías utilizadas</h2>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>
+                        <strong class="text-white">Astro:</strong> Framework web ultrarrápido que permite construir sitios 
+                        orientados al contenido con una menor carga de JavaScript.
+                    </li>
+                    <li>
+                        <strong class="text-white">Tailwind CSS:</strong> Framework de CSS utilitario para diseñar interfaces 
+                        web con rapidez y flexibilidad.
+                    </li>
+                    <li>
+                        <strong class="text-white">SpaceX API:</strong> API pública que proporciona datos sobre los lanzamientos,
+                        cohetes y misiones de SpaceX.
+                    </li>
+                    <li>
+                        <strong class="text-white">TypeScript:</strong> Superconjunto de JavaScript que añade tipado estático
+                        para mejorar la calidad del código.
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-blue-400">Características principales</h2>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>Visualización de los lanzamientos más recientes de SpaceX</li>
+                    <li>Acceso a los lanzamientos históricos de la compañía</li>
+                    <li>Detalles específicos de cada misión (fecha, resultado, parche, videos)</li>
+                    <li>Diseño responsivo optimizado para dispositivos móviles y escritorio</li>
+                    <li>Paginación para navegar fácilmente entre los conjuntos de lanzamientos</li>
+                    <li>Interfaz moderna con animaciones y transiciones suaves</li>
+                </ul>
+            </div>
+            
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-blue-400">Desarrollador</h2>
+                <p class="mb-4">
+                    Esta aplicación fue desarrollada por <a href="https://smcurbelo.vercel.app" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">smcurbelo</a>, 
+                    como parte de un proyecto educativo para explorar el desarrollo web moderno.
+                </p>
+                <p>
+                    Puedes contactar al desarrollador o explorar más proyectos a través de 
+                    <a href="https://smcurbelo.vercel.app" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">su sitio web personal</a>.
+                </p>
+            </div>
+            
+            <div class="text-center pt-4">
+                <p class="text-sm text-gray-500">
+                    Este es un proyecto no oficial y no está afiliado con SpaceX ni con ninguna de sus subsidiarias.
+                </p>
+            </div>
+        </div>
+    </div>
 </Layout>

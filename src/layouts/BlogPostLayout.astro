@@ -1,0 +1,256 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+  title: string;
+  publishDate: string;
+  image: string;
+  description: string;
+  tags: string[];
+}
+
+const { title, publishDate, image, description, tags } = Astro.props.frontmatter || Astro.props;
+---
+
+<Layout title={`${title} | Blog SpaceX Launches`}>
+  <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 overflow-hidden">
+    <!-- Cabecera del artículo con imagen destacada -->
+    <header class="mb-10">
+      <div class="mb-6 flex flex-wrap gap-2">
+        {tags && tags.map((tag: string) => (
+          <span class="inline-block bg-blue-900/30 px-3 py-1 text-sm font-medium text-blue-300 rounded-full border border-blue-800/50">
+            {tag}
+          </span>
+        ))}
+      </div>
+      
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+        {title}
+      </h1>
+      
+      <div class="flex items-center mb-8 text-gray-400">
+        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+        </svg>
+        <time datetime={publishDate}>
+          {new Date(publishDate).toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })}
+        </time>
+        <span class="mx-3">•</span>
+        <span class="flex items-center">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          {Math.ceil(description.length / 5)} min de lectura
+        </span>
+      </div>
+      
+      <div class="relative rounded-2xl overflow-hidden mb-10 shadow-xl">
+        <img 
+          src={image} 
+          alt={title}
+          class="w-full h-72 md:h-96 object-cover"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-40"></div>
+      </div>
+
+      <p class="text-lg text-gray-300 leading-relaxed italic border-l-4 border-blue-500 pl-4 py-2 bg-gray-800/30 rounded-r-lg">
+        {description}
+      </p>
+    </header>
+    
+    <!-- Contenido principal del artículo -->
+    <div class="prose prose-lg prose-invert max-w-none overflow-hidden">
+      <slot />
+    </div>
+    
+    <!-- Enlaces de navegación y acciones -->
+    <div class="mt-12 pt-8 border-t border-gray-800">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <a href="/blog" class="flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"></path>
+          </svg>
+          Volver al blog
+        </a>
+        
+        <div class="flex gap-2">
+          <button 
+            class="flex items-center px-4 py-2 bg-blue-600/20 text-blue-400 rounded-full hover:bg-blue-600/30 transition-colors border border-blue-600/30"
+            onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+          >
+            <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"></path>
+            </svg>
+            Volver arriba
+          </button>
+          
+          <button 
+            class="flex items-center px-4 py-2 bg-gray-700/50 text-gray-300 rounded-full hover:bg-gray-700/80 transition-colors"
+            onclick="navigator.share && navigator.share({
+              title: '{title}',
+              text: '{description}',
+              url: window.location.href
+            }).catch(err => console.error('Error al compartir:', err))"
+          >
+            <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"></path>
+            </svg>
+            Compartir
+          </button>
+        </div>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style is:global>
+  /* Estilos para el contenido markdown generado */
+  .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+    color: white;
+    margin-top: 1.5em;
+    margin-bottom: 0.75em;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  .prose h1 {
+    font-size: 2.5rem;
+    margin-top: 0;
+  }
+  
+  .prose h2 {
+    font-size: 1.875rem;
+    border-bottom: 1px solid rgba(75, 85, 99, 0.4);
+    padding-bottom: 0.5rem;
+  }
+  
+  .prose h3 {
+    font-size: 1.5rem;
+    color: #9ca3af;
+  }
+  
+  .prose p {
+    margin-bottom: 1.25em;
+    line-height: 1.8;
+    color: #d1d5db;
+  }
+  
+  .prose strong {
+    color: white;
+  }
+  
+  .prose a {
+    color: #60a5fa;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  
+  .prose a:hover {
+    color: #93c5fd;
+  }
+  
+  .prose ul, .prose ol {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding-left: 1.5em;
+    color: #d1d5db;
+  }
+  
+  .prose ul {
+    list-style-type: disc;
+  }
+  
+  .prose ol {
+    list-style-type: decimal;
+  }
+  
+  .prose li {
+    margin-bottom: 0.5em;
+  }
+  
+  .prose blockquote {
+    border-left: 4px solid #3b82f6;
+    padding-left: 1em;
+    font-style: italic;
+    color: #9ca3af;
+    margin: 1.5em 0;
+    background-color: rgba(30, 41, 59, 0.5);
+    padding: 1em;
+    border-radius: 0 0.25rem 0.25rem 0;
+  }
+  
+  .prose img {
+    border-radius: 0.5rem;
+    margin: 2em auto;
+    max-width: 100%;
+    height: auto;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .prose code {
+    background-color: rgba(30, 41, 59, 0.8);
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+    color: #93c5fd;
+  }
+  
+  .prose pre {
+    background-color: #1e293b;
+    padding: 1em;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 1.5em 0;
+    border: 1px solid rgba(75, 85, 99, 0.4);
+    max-width: 100%;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  .prose pre code {
+    background-color: transparent;
+    padding: 0;
+    color: #d1d5db;
+    font-size: 0.875em;
+    line-height: 1.7;
+  }
+  
+  /* Añadir un poco de estilo a las tablas */
+  .prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2em 0;
+    display: block;
+    overflow-x: auto;
+    max-width: 100%;
+  }
+  
+  .prose thead {
+    background-color: rgba(30, 41, 59, 0.8);
+    color: white;
+  }
+  
+  .prose th, .prose td {
+    padding: 0.75em 1em;
+    border: 1px solid rgba(75, 85, 99, 0.4);
+  }
+  
+  .prose tbody tr:nth-child(even) {
+    background-color: rgba(30, 41, 59, 0.3);
+  }
+  
+  /* Asegurar que imágenes y contenido multimedia se ajusten */
+  .prose img, .prose video, .prose iframe {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Asegurar que todos los elementos respetan el ancho del contenedor */
+  .prose * {
+    max-width: 100%;
+  }
+</style>

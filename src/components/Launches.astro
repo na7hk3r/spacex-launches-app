@@ -1,21 +1,38 @@
 ---
     import CardLaunch from '../components/CardLaunch.astro'
+    import Pagination from '../components/Pagination.astro'
     import { getLatestLaunches } from '../services/spacex'
 
-    const launches = await getLatestLaunches()
+    // Obtener el parámetro de página de la URL
+    const { page } = Astro.url.searchParams;
+    const currentPage = page ? parseInt(page) : 1;
+    const limit = 16; // Aumentamos el límite a 16 lanzamientos por página
+
+    // Usamos orden descendente para mostrar primero los lanzamientos más recientes
+    // Y filtramos para mostrar solo los que tienen imagen de parche
+    const { docs: launches, totalPages, hasNextPage, hasPrevPage } = await getLatestLaunches(currentPage, limit, 'desc', true);
 ---
 
-<div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-    {
-    launches.map(
-        ({ id, links, details, flight_number: flightNumber, success }) => (
-        <CardLaunch 
-            id={id}
-            img={links.patch.small}
-            details={details}
-            flightNumber={flightNumber}
-            success={success}
-        />
-    ))
-    }
-</div>
+<section class="mb-10">
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {
+        launches.map(
+            ({ id, links, details, flight_number: flightNumber, success }) => (
+            <CardLaunch 
+                id={id}
+                img={links.patch.small}
+                details={details}
+                flightNumber={flightNumber}
+                success={success}
+            />
+        ))
+        }
+    </div>
+
+    <Pagination 
+        currentPage={currentPage} 
+        totalPages={totalPages} 
+        hasNextPage={hasNextPage} 
+        hasPrevPage={hasPrevPage} 
+    />
+</section>

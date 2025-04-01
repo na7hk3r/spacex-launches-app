@@ -10,32 +10,44 @@ interface Props {
 }
 
 const { success, flightNumber, img, id, details } = Astro.props
-const sucessText = success ? "Success" : "Failure"
+const successText = success ? "Success" : "Failure"
 ---
 
 <a 
 href=`/launch/${id}`
-class="rounded-lg border shadow-md bg-gray-800 border-gray-700 hover:scale-105 hover:bg-gray-700 hover:border-gray-500 transition flex flex-col">
-<picture class="flex justify-center p-4">
-    <img class="mb-5 rounded-lg" src={img} alt={`Patch for launch ${id}`} />
-</picture>
+class="relative rounded-lg border shadow-md bg-gray-800 border-gray-700 hover:scale-105 hover:bg-gray-700 hover:border-blue-500 transition-all duration-300 flex flex-col overflow-hidden group">
+    <div class="absolute top-2 right-2 z-10">
+        <span 
+        class:list={[
+            "text-xs font-semibold px-2.5 py-0.5 rounded-full",
+            {
+                "bg-green-500 text-gray-900": success,
+                "bg-red-500 text-white": !success
+            }
+        ]}
+        >{successText}</span>
+    </div>
 
-<header class="p-4 flex-grow">
-    <span 
-    class:list={[
-        "text-xs font-semibold mr-2 px-2.5 py-0.5 rounded",
-        {
-            "bg-green-200 text-green-900": success,
-            "bg-red-200 text-red-900": !success
-        }
-    ]}
-    >{sucessText}</span>
-    
-    <h2 class="my-2 text-2xl font-bold tracking-tight text-white">
-        Flight #{flightNumber}
-    </h2>
-    <p class="mb-4 font-light text-gray-400">
-        {details != null && details?.length > 100 ? details.slice(0, 100) + "..." : details}
-    </p>
-</header>
+    <picture class="flex justify-center p-4 bg-gray-900 group-hover:bg-gray-800 transition-colors">
+        <img class="h-32 object-contain transition-all duration-300 group-hover:scale-110" src={img || 'https://via.placeholder.com/150?text=No+Image'} alt={`Patch for launch ${id}`} />
+    </picture>
+
+    <header class="p-4 flex-grow flex flex-col">
+        <h2 class="text-2xl font-bold tracking-tight text-white group-hover:text-blue-400 transition-colors">
+            Flight #{flightNumber}
+        </h2>
+        
+        <div class="mt-2 flex-grow">
+            <p class="text-gray-400 line-clamp-3">
+                {details ? (details.length > 100 ? details.slice(0, 100) + "..." : details) : "No hay detalles disponibles para esta misión."}
+            </p>
+        </div>
+        
+        <div class="mt-4 pt-2 border-t border-gray-700">
+            <span class="inline-flex items-center text-xs text-blue-400 hover:underline">
+                Ver detalles
+                <svg class="w-3 h-3 ml-1 transform group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </span>
+        </div>
+    </header>
 </a>

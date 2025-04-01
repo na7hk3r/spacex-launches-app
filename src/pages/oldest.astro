@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CardLaunch from '../components/CardLaunch.astro';
+import Pagination from '../components/Pagination.astro';
+import { getLatestLaunches } from '../services/spacex';
+
+// Obtener el parámetro de página de la URL
+const { page } = Astro.url.searchParams;
+const currentPage = page ? parseInt(page) : 1;
+const limit = 16;
+
+// Para los lanzamientos más antiguos usamos orden ascendente para mostrar desde el primero
+// También filtramos para mostrar solo los que tienen imagen de parche
+const { docs: launches, totalPages, hasNextPage, hasPrevPage } = await getLatestLaunches(currentPage, limit, 'asc', true);
+---
+
+<Layout title="Lanzamientos más antiguos | SpaceX">
+    <div class="mb-10">
+        <h1 class="text-4xl font-bold text-center mb-8 text-white">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-blue-500">
+                Lanzamientos antiguos
+            </span>
+        </h1>
+        
+        <p class="text-center text-gray-400 max-w-3xl mx-auto mb-10">
+            Explora los primeros lanzamientos de SpaceX, desde los inicios de la compañía hasta sus primeros hitos históricos en la exploración espacial.
+        </p>
+        
+        <section class="mb-10">
+            <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                {
+                launches.map(
+                    ({ id, links, details, flight_number: flightNumber, success }) => (
+                    <CardLaunch 
+                        id={id}
+                        img={links.patch.small}
+                        details={details}
+                        flightNumber={flightNumber}
+                        success={success}
+                    />
+                ))
+                }
+            </div>
+
+            <Pagination 
+                currentPage={currentPage} 
+                totalPages={totalPages} 
+                hasNextPage={hasNextPage} 
+                hasPrevPage={hasPrevPage} 
+            />
+        </section>
+    </div>
+</Layout>

@@ -1,31 +1,75 @@
 ---
 import HeaderButton from "./HeaderButton.astro"
-
-console.log('App build by Nathker, todo ok')
 ---
 
-<header class="py-8 px-4 mx-auto max-w-xl lg:py-16 lg:px-6">
-    <div class="mx-auto text-center mb-8 lg:mb-16">
-        <h2 class="mb-4 text-5xl tracking-tight font-extrabold text-white">
-            SpaceX launches 🚀
+<header class="py-8 px-4 mx-auto max-w-6xl lg:py-16 lg:px-6">
+    <div class="mx-auto text-center mb-8 lg:mb-16 relative">
+        <!-- Elemento decorativo de fondo -->
+        <div class="absolute -z-10 inset-0 opacity-20">
+            <svg viewBox="0 0 1108 632" aria-hidden="true" class="absolute top-10 left-[calc(50%-4rem)] -z-10 w-[69.25rem] max-w-none transform-gpu blur-3xl">
+                <path fill="url(#175c433f-44f6-4d59-93f0-c5c51ad5566d)" fill-opacity=".2" d="M235.233 402.609 57.541 321.573.83 631.05l234.404-228.441 320.018 145.945c-65.036-115.261-134.286-322.756 109.01-230.655C968.382 433.026 1031 651.247 1092.23 459.36c48.98-153.51-34.51-321.107-82.37-385.717L810.952 324.222 648.261.088 235.233 402.609Z"></path>
+                <defs>
+                    <linearGradient id="175c433f-44f6-4d59-93f0-c5c51ad5566d" x1="1220.59" x2="-85.053" y1="432.766" y2="638.714" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#4F46E5"></stop>
+                        <stop offset="1" stop-color="#80CAFF"></stop>
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+        
+        <h2 class="mb-4 text-5xl tracking-tight font-extrabold text-white relative">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">SpaceX launches 🚀</span>
         </h2>
-        <p class="font-light text-gray-500 sm:text-xl dark:text-gray-400">
-            All the information about SpaceX launches
+        
+        <p class="font-light text-gray-400 sm:text-xl max-w-2xl mx-auto">
+            Toda la información sobre los lanzamientos de SpaceX, exploración espacial y misiones
         </p>
     </div>
 
-    <nav class=" flex flex-col items-center justify-between w-full text-center md:flex-row">
-        <HeaderButton class="text-white" href="/">
-            <svg slot="before" width="40" height="40" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" /><path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" /><path d="M15 9m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
-            Latest launches
+    <nav class="flex flex-col items-center justify-center w-full text-center md:flex-row md:justify-center gap-4">
+        <HeaderButton href="/" tooltip="Explora los lanzamientos espaciales más recientes de SpaceX">
+            <svg slot="before" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+                <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+                <path d="M15 9m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+            </svg>
+            Últimos lanzamientos
+            <span slot="after" class="hidden md:inline-block text-xs opacity-60">| Novedades</span>
         </HeaderButton>
-        <HeaderButton class="text-white" href="/about">
-            <svg slot="before" width="40" height="40" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M12 9h.01" /><path d="M11 12h1v4h1" /></svg>
-            About this project
+        
+        <HeaderButton href="/about" tooltip="Conoce más sobre este proyecto y su desarrollo">
+            <svg slot="before" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+                <path d="M12 9h.01" />
+                <path d="M11 12h1v4h1" />
+            </svg>
+            Acerca del proyecto
+            <span slot="after" class="hidden md:inline-block text-xs opacity-60">| Info</span>
         </HeaderButton>
-        <HeaderButton class="text-white" href="/oldest">
-            <svg slot="before" width="40" height="40" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.984 12.535a9 9 0 1 0 -8.431 8.448" /><path d="M12 7v5l3 3" /><path d="M19 16v6" /><path d="M22 19l-3 3l-3 -3" /></svg>
-            Oldest launches
+        
+        <HeaderButton href="/oldest" tooltip="Revisa la historia de SpaceX con sus primeros lanzamientos">
+            <svg slot="before" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M20.984 12.535a9 9 0 1 0 -8.431 8.448" />
+                <path d="M12 7v5l3 3" />
+                <path d="M19 16v6" />
+                <path d="M22 19l-3 3l-3 -3" />
+            </svg>
+            Lanzamientos antiguos
+            <span slot="after" class="hidden md:inline-block text-xs opacity-60">| Historia</span>
+        </HeaderButton>
+        
+        <HeaderButton href="/blog" tooltip="Artículos sobre la exploración espacial">
+            <svg slot="before" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-11a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1m3 0v18" />
+                <path d="M13 8l2 0" />
+                <path d="M13 12l2 0" />
+            </svg>
+            Blog
+            <span slot="after" class="hidden md:inline-block text-xs opacity-60">| Artículos</span>
         </HeaderButton>
     </nav>
 </header>

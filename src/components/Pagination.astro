@@ -1,0 +1,64 @@
+---
+interface Props {
+    currentPage: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+}
+
+const { currentPage, totalPages, hasNextPage, hasPrevPage } = Astro.props;
+
+// Obtener la ruta actual para mantenerla en la paginación
+const currentPath = Astro.url.pathname;
+const basePath = currentPath === "/" ? "/" : `${currentPath}`;
+
+const prevPageUrl = hasPrevPage ? `${basePath}?page=${currentPage - 1}` : null;
+const nextPageUrl = hasNextPage ? `${basePath}?page=${currentPage + 1}` : null;
+
+// Mostrar 5 páginas alrededor de la página actual
+const startPage = Math.max(1, currentPage - 2);
+const endPage = Math.min(totalPages, currentPage + 2);
+---
+
+<div class="flex justify-center items-center gap-2 my-8">
+    {hasPrevPage && (
+        <a 
+            href={prevPageUrl}
+            class="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+        >
+            <svg width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M15 6l-6 6l6 6" />
+            </svg>
+            Anterior
+        </a>
+    )}
+
+    <div class="flex gap-1">
+        {Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i).map(pageNum => (
+            <a
+                href={`${basePath}?page=${pageNum}`}
+                class={`px-4 py-2 rounded-md transition-colors ${
+                    pageNum === currentPage 
+                        ? 'bg-blue-600 text-white font-bold' 
+                        : 'bg-gray-700 text-gray-200 hover:bg-blue-500'
+                }`}
+            >
+                {pageNum}
+            </a>
+        ))}
+    </div>
+
+    {hasNextPage && (
+        <a 
+            href={nextPageUrl}
+            class="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+        >
+            Siguiente
+            <svg width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M9 6l6 6l-6 6" />
+            </svg>
+        </a>
+    )}
+</div>
